@@ -1,7 +1,7 @@
-
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+import { Spinner } from '../components/Loaders';
 
 const LoginPage: React.FC = () => {
     const [email, setEmail] = useState('alice@example.com');
@@ -16,7 +16,7 @@ const LoginPage: React.FC = () => {
         setError('');
         setLoading(true);
         try {
-            await login(email);
+            await login(email, password);
             navigate('/');
         } catch (err) {
             setError(err instanceof Error ? err.message : 'An unknown error occurred.');
@@ -29,7 +29,7 @@ const LoginPage: React.FC = () => {
         <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 px-4">
             <div className="w-full max-w-md p-8 space-y-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
                 <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white">Login</h2>
-                <p className="text-center text-gray-600 dark:text-gray-300">Use `alice@example.com` to log in. Password is not checked in this mock version.</p>
+                <p className="text-center text-gray-600 dark:text-gray-300">Use `alice@example.com` and `password123` to log in.</p>
                 {error && <p className="text-red-500 text-center bg-red-100 dark:bg-red-900/50 p-3 rounded-md">{error}</p>}
                 <form className="space-y-6" onSubmit={handleSubmit}>
                     <div>
@@ -72,9 +72,14 @@ const LoginPage: React.FC = () => {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-primary-600 border border-transparent rounded-md shadow-sm hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="flex justify-center items-center w-full px-4 py-2 text-sm font-medium text-white bg-primary-600 border border-transparent rounded-md shadow-sm hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            {loading ? 'Logging in...' : 'Login'}
+                            {loading ? (
+                                <>
+                                    <Spinner size="sm" />
+                                    <span className="ml-2">Logging in...</span>
+                                </>
+                            ) : 'Login'}
                         </button>
                     </div>
                 </form>

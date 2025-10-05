@@ -8,8 +8,8 @@ interface AuthContextType {
   token: string | null;
   isAuthenticated: boolean;
   loading: boolean;
-  login: (email: string) => Promise<void>;
-  signup: (name: string, email: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<void>;
+  signup: (name: string, email: string, password: string) => Promise<void>;
   logout: () => void;
 }
 
@@ -35,18 +35,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, []);
 
-  const login = useCallback(async (email: string) => {
-    const { user: loggedInUser, token: apiToken } = await mockApi.login(email);
+  const login = useCallback(async (email: string, password: string) => {
+    const { user: loggedInUser, token: apiToken } = await mockApi.login(email, password);
     setUser(loggedInUser);
     setToken(apiToken);
     localStorage.setItem('user', JSON.stringify(loggedInUser));
     localStorage.setItem('token', apiToken);
   }, []);
 
-  const signup = useCallback(async (name: string, email: string) => {
-    await mockApi.signup(name, email);
+  const signup = useCallback(async (name: string, email: string, password: string) => {
+    await mockApi.signup(name, email, password);
     // After signup, automatically log in the user
-    await login(email);
+    await login(email, password);
   }, [login]);
 
   const logout = useCallback(() => {
