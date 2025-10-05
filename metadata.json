@@ -1,5 +1,0 @@
-{
-  "name": "Book Review Platform",
-  "description": "A comprehensive Book Review Platform where users can sign up, log in, add books, and review them. This application showcases a modern frontend built with React, TypeScript, and Tailwind CSS, featuring user authentication, CRUD operations, pagination, and dynamic rating calculations.",
-  "requestFramePermissions": []
-}
